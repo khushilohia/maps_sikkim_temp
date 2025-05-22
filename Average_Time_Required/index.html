@@ -23,6 +23,38 @@
     <body>
         <div id="map">
         </div>
+        <div class="legend-colored-districts" style="
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    background: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    font-size: 13px;
+    z-index: 9999;
+    min-width: 80px;
+">
+    <div style="font-weight:600; margin-bottom:6px; text-align:center;">
+        Avg Time (Days)
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:4px;">
+        <span style="display:inline-block;width:14px;height:14px;background:#4CAF50;border-radius:3px;margin-right:8px;"></span>
+        Fastest
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:4px;">
+        <span style="display:inline-block;width:14px;height:14px;background:#FFEB3B;border-radius:3px;margin-right:8px;"></span>
+        &nbsp;
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:4px;">
+        <span style="display:inline-block;width:14px;height:14px;background:#FF9800;border-radius:3px;margin-right:8px;"></span>
+        &nbsp;
+    </div>
+    <div style="display:flex; align-items:center;">
+        <span style="display:inline-block;width:14px;height:14px;background:#F44336;border-radius:3px;margin-right:8px;"></span>
+        Slowest
+    </div>
+</div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/L.Control.Layers.Tree.min.js"></script>
@@ -178,7 +210,7 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(217,147,71,1.0)',
+                fillColor: '#4CAF50', // Green (fastest)
                 interactive: true,
             }
                     break;
@@ -193,7 +225,7 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(51,160,44,1.0)',
+                fillColor: '#FFEB3B', // Yellow (medium)
                 interactive: true,
             }
                     break;
@@ -208,7 +240,7 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(152,125,183,1.0)',
+                fillColor: '#FF9800', // Orange (slow)
                 interactive: true,
             }
                     break;
@@ -223,7 +255,7 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(218,38,161,1.0)',
+                fillColor: '#F44336', // Red (slowest)
                 interactive: true,
             }
                     break;
@@ -238,7 +270,7 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(133,123,209,1.0)',
+                fillColor: '#BDBDBD', // Gray fallback
                 interactive: true,
             }
                     break;
@@ -429,23 +461,32 @@
         });
         bounds_group.addLayer(layer_Sikkim_Mask_5);
         map.addLayer(layer_Sikkim_Mask_5);
-        var overlaysTree = [
-            {label: '<img src="legend/Sikkim_Mask_5.png" /> Sikkim_Mask', layer: layer_Sikkim_Mask_5},
-            {label: 'Colored Map copy<br /><table><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_4_EastDistrict0.png" /></td><td>East District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_4_NorthDistrict1.png" /></td><td>North District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_4_SouthDistrict2.png" /></td><td>South District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_4_WestDistrict3.png" /></td><td>West District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_4_4.png" /></td><td></td></tr></table>', layer: layer_ColoredMapcopy_4},
-            {label: 'Colored Map copy copy<br /><table><tr><td style="text-align: center;"><img src="legend/ColoredMapcopycopy_3_EastDistrict0.png" /></td><td>East District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopycopy_3_NorthDistrict1.png" /></td><td>North District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopycopy_3_SouthDistrict2.png" /></td><td>South District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopycopy_3_WestDistrict3.png" /></td><td>West District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopycopy_3_4.png" /></td><td></td></tr></table>', layer: layer_ColoredMapcopycopy_3},
-            {label: "Google Hybrid", layer: layer_GoogleHybrid_2, radioGroup: 'bm' },
-            {label: "OSM Standard", layer: layer_OSMStandard_1, radioGroup: 'bm' },
-            {label: "Google Labels", layer: layer_GoogleLabels_0, radioGroup: 'bm' },]
-        var lay = L.control.layers.tree(null, overlaysTree,{
-            //namedToggle: true,
-            //selectorBack: false,
-            //closedSymbol: '&#8862; &#x1f5c0;',
-            //openedSymbol: '&#8863; &#x1f5c1;',
-            //collapseAll: 'Collapse all',
-            //expandAll: 'Expand all',
-            collapsed: true,
-        });
-        lay.addTo(map);
+        // Define base maps
+var baseTree = [
+    {
+        label: "Base Maps",
+        children: [
+            { label: "Google Hybrid", layer: layer_GoogleHybrid_2, radioGroup: 'bm' },
+            { label: "Google Labels", layer: layer_GoogleLabels_0, radioGroup: 'bm' },
+            { label: "OSM Standard", layer: layer_OSMStandard_1, radioGroup: 'bm' },
+            { label: "Colored Districts", layer: layer_ColoredMapcopycopy_3, radioGroup: 'bm' }
+        ]
+    }
+];
+
+// Define overlays
+var overlaysTree = [
+    {
+        label: "District Administrative Boundaries",
+        layer: layer_ColoredMapcopy_4
+    }
+];
+
+// Add the control
+var lay = L.control.layers.tree(baseTree, overlaysTree, {
+    collapsed: true,
+});
+lay.addTo(map);
         setBounds();
         resetLabels([layer_ColoredMapcopycopy_3,layer_ColoredMapcopy_4]);
         map.on("zoomend", function(){
@@ -457,6 +498,13 @@
         map.on("layerremove", function(){
             resetLabels([layer_ColoredMapcopycopy_3,layer_ColoredMapcopy_4]);
         });
+map.on('baselayerchange', function() {
+    if (!map.hasLayer(layer_Sikkim_Mask_5)) map.addLayer(layer_Sikkim_Mask_5);
+    layer_Sikkim_Mask_5.bringToFront();
+});
+map.whenReady(function() {
+    layer_Sikkim_Mask_5.bringToFront();
+});
         </script>
     </body>
 </html>
