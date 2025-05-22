@@ -408,10 +408,18 @@
         var layer_FilteredBeneficiaries_5 = new L.heatLayer(FilteredBeneficiaries_5_hm, {
             attribution: '',
             interactive: true,
-            radius: 20,
-            max: 1,
-            minOpacity: 1,
-            gradient: {0: '#d7191c', 0.25: '#fdae61', 0.5: '#ffffbf', 0.75: '#abdda4', 1: '#2b83ba'}});
+            radius: 18,         // smaller radius for more detail
+            blur: 22,           // more blur for smoothness
+            maxZoom: 12,        // limit zoom for clarity
+            minOpacity: 0.5,    // allow some transparency
+            gradient: {
+                0.0: '#00f',    // blue (low)
+                0.3: '#0ff',    // cyan
+                0.5: '#ff0',    // yellow
+                0.7: '#f90',    // orange
+                1.0: '#f00'     // red (high)
+            }
+        });
         bounds_group.addLayer(layer_FilteredBeneficiaries_5);
         map.addLayer(layer_FilteredBeneficiaries_5);
         function pop_Sikkim_Mask_6(feature, layer) {
@@ -803,27 +811,31 @@
         });
         bounds_group.addLayer(layer_Sikkim_Mask_10);
         map.addLayer(layer_Sikkim_Mask_10);
-        var overlaysTree = [
-            {label: '<img src="legend/Sikkim_Mask_10.png" /> Sikkim_Mask', layer: layer_Sikkim_Mask_10},
-            {label: '<img src="legend/SIKKIMFINAL_9.png" /> SIKKIM FINAL', layer: layer_SIKKIMFINAL_9},
-            {label: '<img src="legend/Sikkim_Mask_8.png" /> Sikkim_Mask', layer: layer_Sikkim_Mask_8},
-            {label: 'Colored Map<br /><table><tr><td style="text-align: center;"><img src="legend/ColoredMap_7_EastDistrict0.png" /></td><td>East District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMap_7_NorthDistrict1.png" /></td><td>North District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMap_7_SouthDistrict2.png" /></td><td>South District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMap_7_WestDistrict3.png" /></td><td>West District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMap_7_4.png" /></td><td></td></tr></table>', layer: layer_ColoredMap_7},
-            {label: '<img src="legend/Sikkim_Mask_6.png" /> Sikkim_Mask', layer: layer_Sikkim_Mask_6},
-            {label: '<img src="legend/Sikkim_Mask_4.png" /> Sikkim_Mask', layer: layer_Sikkim_Mask_4},
-            {label: 'Colored Map copy<br /><table><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_3_EastDistrict0.png" /></td><td>East District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_3_NorthDistrict1.png" /></td><td>North District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_3_SouthDistrict2.png" /></td><td>South District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_3_WestDistrict3.png" /></td><td>West District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_3_4.png" /></td><td></td></tr></table>', layer: layer_ColoredMapcopy_3},
-            {label: "OSM Standard", layer: layer_OSMStandard_2, radioGroup: 'bm' },
-            {label: "Google Hybrid", layer: layer_GoogleHybrid_1, radioGroup: 'bm' },
-            {label: "Google Labels", layer: layer_GoogleLabels_0, radioGroup: 'bm' },]
-        var lay = L.control.layers.tree(null, overlaysTree,{
-            //namedToggle: true,
-            //selectorBack: false,
-            //closedSymbol: '&#8862; &#x1f5c0;',
-            //openedSymbol: '&#8863; &#x1f5c1;',
-            //collapseAll: 'Collapse all',
-            //expandAll: 'Expand all',
-            collapsed: false, 
-        });
-        lay.addTo(map);
+        // Always show Sikkim Mask
+        map.addLayer(layer_Sikkim_Mask_10);
+
+var baseTree = [
+    {
+        label: "Base Maps",
+        children: [
+            { label: "OSM Standard", layer: layer_OSMStandard_2, radioGroup: 'bm' },
+            { label: "Google Hybrid", layer: layer_GoogleHybrid_1, radioGroup: 'bm' },
+            { label: "Google Labels", layer: layer_GoogleLabels_0, radioGroup: 'bm' },
+            { label: "Colored Districts", layer: layer_ColoredMapcopy_3, radioGroup: 'bm' }
+        ]
+    }
+];
+
+var overlaysTree = [
+    { label: "District Boundaries", layer: layer_ColoredMap_7 },
+    { label: "GPU Boundaries", layer: layer_SIKKIMFINAL_9 },
+    { label: "Heatmap", layer: layer_FilteredBeneficiaries_5 }
+];
+
+var lay = L.control.layers.tree(baseTree, overlaysTree, {
+    collapsed: false
+});
+lay.addTo(map);
 		document.addEventListener("DOMContentLoaded", function() {
             // set new Layers List height which considers toggle icon
             function newLayersListHeight() {
@@ -894,6 +906,7 @@
         map.on("layerremove", function(){
             resetLabels([layer_ColoredMapcopy_3,layer_ColoredMap_7]);
         });
+        map.addLayer(layer_ColoredMap_7);
         </script>
     </body>
 </html>
