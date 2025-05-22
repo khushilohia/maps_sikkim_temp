@@ -8,7 +8,7 @@ Average Time Required by Block<br>
 Fund Utilization by District<br>
 Beneficiary Density Heatmap<br>
 GPU-wise Beneficiary Point Distribution<br>
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_20-22_21_15_721488/index.html">Sikkim no. of beneficiaries</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/gis_beneficiary_map/index.html">Sikkim no. of beneficiaries</a>
 <br>
 <a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_21-01_30_46_089405/index.html">Sikkim funds</a>
 <br>
