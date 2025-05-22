@@ -17,6 +17,30 @@
             padding: 0;
             margin: 0;
         }
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            font-size: 14px;
+            z-index: 9999;
+            line-height: 1.7;
+        }
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 1px solid #333;
+        }
         </style>
         <title>SIKKIM</title>
     </head>
@@ -423,5 +447,12 @@
             // Optionally, update popups if needed after data load
           });
         </script>
+        <div class="legend">
+            <div class="legend-title">District Colors</div>
+            <div><span class="legend-color" style="background:#d72eaa"></span>East District</div>
+            <div><span class="legend-color" style="background:#85c84b"></span>North District</div>
+            <div><span class="legend-color" style="background:#5e56d6"></span>South District</div>
+            <div><span class="legend-color" style="background:#7ddbcf"></span>West District</div>
+        </div>
     </body>
 </html>
