@@ -2,21 +2,21 @@
 <a href ="https://khushilohia.github.io/maps_sikkim_temp/1/index.html#9/27.6359/88.5761">Sikkim Temp</a>
 <br>
 SIkkim no. of ben +markers of houses<br>
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/gis_beneficiary_map/index.html">Sikkim markers</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Sikkim_markers/index.html">Sikkim_markers</a>
 <br>
 
 Number of Beneficiaries by District<br>
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_20-22_21_15_721488/index.html">Sikkim markers</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Number_of_Beneficiaries/index.html">Number_of_Beneficiaries</a>
 <br>
 Total Fund Allocation by District<br>
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_21-01_30_46_089405/index.html">Sikkim funds</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Sikkim_fund/index.html">Sikkim_funds</a>
 <br>
 Construction Stage Map (Point-wise Categorization)<br>
 
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_21-17_09_49_352449/index.html">Sikkim 3</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Construction_Stage/index.html">Construction_Stage</a>
 <br>
 
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_21-18_50_11_475735/index.html">Sikkim 4</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Average_Time_Required/index.html">Average_Time_Required</a>
 
 Average Time Required by Block<br>
 <br>
@@ -24,12 +24,12 @@ Average Time Required by Block<br>
 
 <br>
 Fund Utilization by District<br>
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_21-20_16_23_611124/index.html">Sikkim heatmap</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Sikkim_heatmap/index.html">Sikkim_heatmap</a>
 
 <br>
 Beneficiary Density Heatmap<br>
 
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_21-21_25_53_950026/index.html">Sikkim gpu point</a>
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Sikkim_gpu_point/index.html">Sikkim_gpu_point</a>
 
 
 GPU-wise Beneficiary Point Distribution<br>
