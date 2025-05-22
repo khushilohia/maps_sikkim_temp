@@ -660,60 +660,42 @@
             map.addLayer(layer_stname_SIKKIM_4);
             
             // Sikkim White Mask layer (hidden by default)
-            function pop_SikkimWhiteMask_5(feature, layer) {
-                layer.on({
-                    mouseout: function(e) {
-                        if (typeof layer.closePopup == 'function') {
-                            layer.closePopup();
-                        } else {
-                            layer.eachLayer(function(feature){
-                                feature.closePopup()
-                            });
-                        }
-                    },
-                    mouseover: highlightFeature,
-                });
-                var popupContent = '<table>\
-                        <tr>\
-                            <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                        </tr>\
-                    </table>';
-                var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-                layer.on('popupopen', function(e) {
-                    addClassToPopupIfMedia(content, e.popup);
-                });
-                layer.bindPopup(content, { maxHeight: 400 });
-            }
-            
-            function style_SikkimWhiteMask_5_0() {
-                return {
-                    pane: 'pane_SikkimWhiteMask_5',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(255,255,255,1.0)',
-                    interactive: false,
-                }
-            }
-            
-            map.createPane('pane_SikkimWhiteMask_5');
-            map.getPane('pane_SikkimWhiteMask_5').style.zIndex = 405;
-            map.getPane('pane_SikkimWhiteMask_5').style['mix-blend-mode'] = 'normal';
-            var layer_SikkimWhiteMask_5 = new L.geoJson(json_SikkimWhiteMask_5, {
-                attribution: '',
-                interactive: false,
-                dataVar: 'json_SikkimWhiteMask_5',
-                layerName: 'layer_SikkimWhiteMask_5',
-                pane: 'pane_SikkimWhiteMask_5',
-                onEachFeature: pop_SikkimWhiteMask_5,
-                style: style_SikkimWhiteMask_5_0,
-            });
-            bounds_group.addLayer(layer_SikkimWhiteMask_5);
+           function pop_SikkimWhiteMask_5(feature, layer) {
+    // No popup or interaction for the mask
+}
+
+function style_SikkimWhiteMask_5_0() {
+    return {
+        pane: 'pane_SikkimWhiteMask_5',
+        opacity: 1,
+        color: 'rgba(35,35,35,1.0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 1.0, 
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(255,255,255,1.0)',
+        interactive: false,
+    }
+}
+
+map.createPane('pane_SikkimWhiteMask_5');
+map.getPane('pane_SikkimWhiteMask_5').style.zIndex = 405;
+map.getPane('pane_SikkimWhiteMask_5').style['mix-blend-mode'] = 'normal';
+var layer_SikkimWhiteMask_5 = new L.geoJson(json_SikkimWhiteMask_5, {
+    attribution: '',
+    interactive: false,
+    dataVar: 'json_SikkimWhiteMask_5',
+    layerName: 'layer_SikkimWhiteMask_5',
+    pane: 'pane_SikkimWhiteMask_5',
+    onEachFeature: pop_SikkimWhiteMask_5,
+    style: style_SikkimWhiteMask_5_0,
+});
+bounds_group.addLayer(layer_SikkimWhiteMask_5);
+
+// Add the white mask by default
+map.addLayer(layer_SikkimWhiteMask_5);
             
             // Don't add the white mask by default
             // map.addLayer(layer_SikkimWhiteMask_5);
