@@ -17,12 +17,46 @@
             padding: 0;
             margin: 0;
         }
+        .legend-progress {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    left: auto;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    font-size: 14px;
+    z-index: 9999;
+    line-height: 1.7;
+}
+.legend-progress-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.legend-progress-color {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 1px solid #333;
+    border-radius: 50%;
+}
         </style>
         <title>SIKKIM</title>
     </head>
     <body>
         <div id="map">
         </div>
+        <div class="legend-progress">
+    <div class="legend-progress-title">Progress Stage</div>
+    <div><span class="legend-progress-color" style="background:#00204d"></span>Stage-I</div>
+    <div><span class="legend-progress-color" style="background:#414d6b"></span>Stage-II</div>
+    <div><span class="legend-progress-color" style="background:#7d7c78"></span>Stage-III</div>
+    <div><span class="legend-progress-color" style="background:#beaf6f"></span>Stage-IV</div>
+    <div><span class="legend-progress-color" style="background:#ffea46"></span>Stage-V</div>
+</div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/L.Control.Layers.Tree.min.js"></script>
@@ -464,25 +498,7 @@
         bounds_group.addLayer(layer_FilteredPoints_3);
         map.addLayer(layer_FilteredPoints_3);
         function pop_Sikkim_Mask_4(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            // No popup for Sikkim Mask
         }
 
         function style_Sikkim_Mask_4_0() {
@@ -514,22 +530,81 @@
         });
         bounds_group.addLayer(layer_Sikkim_Mask_4);
         map.addLayer(layer_Sikkim_Mask_4);
+        // Add Sikkim Mask to map by default (already done above), do NOT include in overlaysTree or baseTree
+
+        // Add Google Labels and OSM Standard base layers
+        map.createPane('pane_GoogleLabels_1');
+        map.getPane('pane_GoogleLabels_1').style.zIndex = 405;
+        var layer_GoogleLabels_1 = L.tileLayer('https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleLabels_1',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 9,
+            maxZoom: 13,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+
+        map.createPane('pane_OSMStandard_2');
+        map.getPane('pane_OSMStandard_2').style.zIndex = 406;
+        var layer_OSMStandard_2 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_2',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 9,
+            maxZoom: 13,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+
+        // Define base maps
+        var baseTree = [
+            {
+                label: "Base Maps",
+                children: [
+                    { label: "Google Hybrid", layer: layer_GoogleHybrid_0, radioGroup: 'bm' },
+                    { label: "Google Labels", layer: layer_GoogleLabels_1, radioGroup: 'bm' },
+                    { label: "OSM Standard", layer: layer_OSMStandard_2, radioGroup: 'bm' },
+                    { label: "Colored Districts", layer: layer_ColoredMapcopy_2, radioGroup: 'bm' }
+                ]
+            }
+        ];
+
+        // Define overlays
         var overlaysTree = [
-            {label: '<img src="legend/Sikkim_Mask_4.png" /> Sikkim_Mask', layer: layer_Sikkim_Mask_4},
-            {label: 'Filtered Points<br /><table><tr><td style="text-align: center;"><img src="legend/FilteredPoints_3_StageI0.png" /></td><td>Stage-I</td></tr><tr><td style="text-align: center;"><img src="legend/FilteredPoints_3_StageII1.png" /></td><td>Stage-II</td></tr><tr><td style="text-align: center;"><img src="legend/FilteredPoints_3_StageIII2.png" /></td><td>Stage-III</td></tr><tr><td style="text-align: center;"><img src="legend/FilteredPoints_3_StageIV3.png" /></td><td>Stage-IV</td></tr><tr><td style="text-align: center;"><img src="legend/FilteredPoints_3_StageV4.png" /></td><td>Stage-V</td></tr></table>', layer: layer_FilteredPoints_3},
-            {label: 'Colored Map copy<br /><table><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_2_EastDistrict0.png" /></td><td>East District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_2_NorthDistrict1.png" /></td><td>North District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_2_SouthDistrict2.png" /></td><td>South District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_2_WestDistrict3.png" /></td><td>West District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMapcopy_2_4.png" /></td><td></td></tr></table>', layer: layer_ColoredMapcopy_2},
-            {label: 'Colored Map<br /><table><tr><td style="text-align: center;"><img src="legend/ColoredMap_1_EastDistrict0.png" /></td><td>East District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMap_1_NorthDistrict1.png" /></td><td>North District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMap_1_SouthDistrict2.png" /></td><td>South District</td></tr><tr><td style="text-align: center;"><img src="legend/ColoredMap_1_WestDistrict3.png" /></td><td>West District</td></tr></table>', layer: layer_ColoredMap_1},
-            {label: "Google Hybrid", layer: layer_GoogleHybrid_0, radioGroup: 'bm' },]
-        var lay = L.control.layers.tree(null, overlaysTree,{
-            //namedToggle: true,
-            //selectorBack: false,
-            //closedSymbol: '&#8862; &#x1f5c0;',
-            //openedSymbol: '&#8863; &#x1f5c1;',
-            //collapseAll: 'Collapse all',
-            //expandAll: 'Expand all',
+    {
+        label: 'Progress Stage',
+        layer: layer_FilteredPoints_3
+    },
+    {
+        label: 'District Administrative Boundaries',
+        layer: layer_ColoredMap_1
+    }
+];
+
+        // Add the control
+        var lay = L.control.layers.tree(baseTree, overlaysTree, {
             collapsed: true,
         });
         lay.addTo(map);
+
+        // Always keep Sikkim Mask and Progress Points on top of base layers
+        function bringLayersToFront() {
+    if (map.hasLayer(layer_OSMStandard_2)) {
+        if (!map.hasLayer(layer_Sikkim_Mask_4)) map.addLayer(layer_Sikkim_Mask_4);
+        if (!map.hasLayer(layer_FilteredPoints_3)) map.addLayer(layer_FilteredPoints_3);
+        if (!map.hasLayer(layer_ColoredMap_1)) map.addLayer(layer_ColoredMap_1);
+        layer_Sikkim_Mask_4.bringToFront();
+        layer_ColoredMap_1.bringToFront();
+        layer_FilteredPoints_3.bringToFront();
+    }
+    if (map.hasLayer(layer_GoogleLabels_1)) {
+        if (!map.hasLayer(layer_Sikkim_Mask_4)) map.addLayer(layer_Sikkim_Mask_4);
+        layer_Sikkim_Mask_4.bringToFront();
+    }
+}
+map.on('baselayerchange', bringLayersToFront);
+map.whenReady(bringLayersToFront);
         setBounds();
         resetLabels([layer_ColoredMap_1,layer_ColoredMapcopy_2]);
         map.on("zoomend", function(){
