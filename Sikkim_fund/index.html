@@ -23,6 +23,42 @@
     <body>
         <div id="map">
         </div>
+        <div class="legend-fund-utilized" style="
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    background: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    font-size: 13px;
+    z-index: 9999;
+    min-width: 120px;
+">
+    <div style="font-weight:600; margin-bottom:6px; text-align:center;">
+        Fund Utilized (₹)
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:4px;">
+        <span style="display:inline-block;width:16px;height:16px;background:#f7fbff;border-radius:3px;margin-right:8px;border:1px solid #bbb;"></span>
+        1,75,000
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:4px;">
+        <span style="display:inline-block;width:16px;height:16px;background:#c8dcf0;border-radius:3px;margin-right:8px;border:1px solid #bbb;"></span>
+        25,000
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:4px;">
+        <span style="display:inline-block;width:16px;height:16px;background:#73b2d8;border-radius:3px;margin-right:8px;border:1px solid #bbb;"></span>
+        65,000
+    </div>
+    <div style="display:flex; align-items:center; margin-bottom:4px;">
+        <span style="display:inline-block;width:16px;height:16px;background:#2979b9;border-radius:3px;margin-right:8px;border:1px solid #bbb;"></span>
+        85,000
+    </div>
+    <div style="display:flex; align-items:center;">
+        <span style="display:inline-block;width:16px;height:16px;background:#08306b;border-radius:3px;margin-right:8px;border:1px solid #bbb;"></span>
+        Other
+    </div>
+</div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/L.Control.Layers.Tree.min.js"></script>
@@ -150,8 +186,8 @@
                         <td>' + (feature.properties['dtname'] !== null ? autolinker.link(String(feature.properties['dtname']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Fund Utillized</th>\
-                        <td>' + (feature.properties['beneficiaries_int_finance_fundUtilized'] !== null ? autolinker.link(String(feature.properties['beneficiaries_int_finance_fundUtilized']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">Fund Utilized (Sum)</th>\
+                        <td>' + (feature.properties['fund_utilized_sum'] !== null ? autolinker.link(String(feature.properties['fund_utilized_sum']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Fund Allocated</th>\
@@ -159,10 +195,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style_stname_SIKKIM_3_0(feature) {
@@ -429,23 +465,49 @@
         });
         bounds_group.addLayer(layer_SikkimWhiteMask_5);
         map.addLayer(layer_SikkimWhiteMask_5);
-        var overlaysTree = [
-            {label: '<img src="legend/SikkimWhiteMask_5.png" /> Sikkim White Mask', layer: layer_SikkimWhiteMask_5},
-            {label: 'stname_SIKKIM copy<br /><table><tr><td style="text-align: center;"><img src="legend/stname_SIKKIMcopy_4_1750000.png" /></td><td>175000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIMcopy_4_250001.png" /></td><td>25000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIMcopy_4_650002.png" /></td><td>65000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIMcopy_4_850003.png" /></td><td>85000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIMcopy_4_4.png" /></td><td></td></tr></table>', layer: layer_stname_SIKKIMcopy_4},
-            {label: 'stname_SIKKIM<br /><table><tr><td style="text-align: center;"><img src="legend/stname_SIKKIM_3_1750000.png" /></td><td>175000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIM_3_250001.png" /></td><td>25000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIM_3_650002.png" /></td><td>65000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIM_3_850003.png" /></td><td>85000</td></tr><tr><td style="text-align: center;"><img src="legend/stname_SIKKIM_3_4.png" /></td><td></td></tr></table>', layer: layer_stname_SIKKIM_3},
-            {label: "Google Hybrid", layer: layer_GoogleHybrid_2},
-            {label: "OSM Standard", layer: layer_OSMStandard_1},
-            {label: "Google Labels", layer: layer_GoogleLabels_0},]
-        var lay = L.control.layers.tree(null, overlaysTree,{
-            //namedToggle: true,
-            //selectorBack: false,
-            //closedSymbol: '&#8862; &#x1f5c0;',
-            //openedSymbol: '&#8863; &#x1f5c1;',
-            //collapseAll: 'Collapse all',
-            //expandAll: 'Expand all',
-            collapsed: true,
-        });
-        lay.addTo(map);
+        // --- Calculate sum of fund utilized per district ---
+var fundUtilizedByDistrict = {};
+
+// First, sum up fund utilized for each district
+json_stname_SIKKIM_3.features.forEach(function(feature) {
+    var district = feature.properties['dtname'];
+    var fund = Number(feature.properties['beneficiaries_int_finance_fundUtilized']) || 0;
+    if (!fundUtilizedByDistrict[district]) {
+        fundUtilizedByDistrict[district] = 0;
+    }
+    fundUtilizedByDistrict[district] += fund;
+});
+
+// Then, attach the sum to each feature as a new property
+json_stname_SIKKIM_3.features.forEach(function(feature) {
+    var district = feature.properties['dtname'];
+    feature.properties['fund_utilized_sum'] = fundUtilizedByDistrict[district];
+});
+
+// Define base maps
+var baseTree = [
+    {
+        label: "Base Maps",
+        children: [
+            { label: "Google Hybrid", layer: layer_GoogleHybrid_2, radioGroup: 'bm' },
+            { label: "OSM Standard", layer: layer_OSMStandard_1, radioGroup: 'bm' },
+            { label: "Google Labels", layer: layer_GoogleLabels_0, radioGroup: 'bm' },
+            { label: "Fund Utilized by District", layer: layer_stname_SIKKIM_3, radioGroup: 'bm' }
+        ]
+    }
+];
+
+// Define overlays
+var overlaysTree = [
+    { label: "District Boundaries", layer: layer_stname_SIKKIMcopy_4 }
+];
+
+// Add the control
+var lay = L.control.layers.tree(baseTree, overlaysTree, {
+    collapsed: true,
+});
+lay.addTo(map);
+
         setBounds();
         </script>
     </body>
