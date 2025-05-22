@@ -15,20 +15,13 @@ Construction Stage Map (Point-wise Categorization)<br>
 
 <a href ="https://khushilohia.github.io/maps_sikkim_temp/Construction_Stage/index.html">Construction_Stage</a>
 <br>
-
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/Average_Time_Required/index.html">Average_Time_Required</a>
-
 Average Time Required by Block<br>
-<br>
-<a href ="https://khushilohia.github.io/maps_sikkim_temp/qgis2web_2025_05_21-18_50_33_817900/index.html">Sikkim 5</a>
-
+<a href ="https://khushilohia.github.io/maps_sikkim_temp/Average_Time_Required/index.html">Average_Time_Required</a>
 <br>
 Fund Utilization by District<br>
 <a href ="https://khushilohia.github.io/maps_sikkim_temp/Sikkim_heatmap/index.html">Sikkim_heatmap</a>
-
 <br>
 Beneficiary Density Heatmap<br>
-
 <a href ="https://khushilohia.github.io/maps_sikkim_temp/Sikkim_gpu_point/index.html">Sikkim_gpu_point</a>
 
 
